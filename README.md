@@ -1,4 +1,4 @@
 # Проектная работа Mesto
 
-студент, когорта, стэк
+Platto Artyom, html, css, js
 # mesto-project
