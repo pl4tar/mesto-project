@@ -1,0 +1,18 @@
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: -8px;
+    margin-bottom: 10px;
+}
+.empty-error {
+    /*font-family: Inter;*/
+    font-size: 12px;
+    font-weight: 400;
+    /*line-height: 14.52px;*/
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: red;
+    margin-top: -5px;
+    margin-bottom: 10px;
+}

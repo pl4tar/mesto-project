@@ -1,5 +1,6 @@
-// @todo: Темплейт карточки
-import {initialCards} from "./cards.js";
+import '../pages/index.css'
+
+import {initialCards} from "./cards";
 
 let placesList = document.querySelector('.places__list');
 const profilePopup = document.querySelector('.popup_type_edit');
@@ -137,3 +138,95 @@ profileForm.addEventListener('submit', (event) => {
     profileDescription.textContent = profileDescriptionInput.value;
     closeModal(profilePopup);
 })
+
+
+// const form = document.querySelector('.popup__form');
+// form.forEach(form => {
+//     const inputs = form.querySelectorAll('.popup__input');
+//     const button = form.querySelector('.popup__button');
+//     function validateForm() {
+//         let isValid = true;
+//
+//         inputs.forEach(input => {
+//             const errorElement = document.getElementById(`${input.name}-error`);
+//             const emptyErrorElement = document.getElementById(`${input.name}-empty-error`);
+//
+//             if (input.validity.valueMissing) {
+//                 emptyErrorElement.textContent = 'Вы пропустили это поле';
+//                 errorElement.textContent = '';
+//                 isValid = false;
+//             } else {
+//                 emptyErrorElement.textContent = '';
+//                 if (!input.validity.valid) {
+//                     errorElement.textContent = input.validationMessage;
+//                     isValid = false;
+//                 } else {
+//                     errorElement.textContent = '';
+//                 }
+//             }
+//         });
+//
+//         button.disabled = !isValid;
+//     }
+//
+// // inputs.forEach(input => {
+// //     input.addEventListener('input', validateForm);
+// // });
+//
+//     inputs.forEach(input => {
+//         input.addEventListener('input', validateForm);
+//         input.addEventListener('invalid', (event) => {
+//             event.preventDefault();
+//         });
+//     });
+//     validateForm();
+// })
+
+const forms = document.querySelectorAll('.popup__form');
+
+forms.forEach(form => {
+    const inputs = form.querySelectorAll('.popup__input');
+    const button = form.querySelector('.popup__button');
+
+    function validateForm() {
+        let isValid = true;
+
+        inputs.forEach(input => {
+            const errorElement = document.getElementById(`${input.name}-error`);
+            const emptyErrorElement = document.getElementById(`${input.name}-empty-error`);
+
+            if (input.validity.valueMissing) {
+                emptyErrorElement.textContent = 'Вы пропустили это поле';
+                errorElement.textContent = '';
+                isValid = false;
+            } else {
+                emptyErrorElement.textContent = '';
+                if (!input.validity.valid) {
+                    errorElement.textContent = input.validationMessage;
+                    isValid = false;
+                } else {
+                    errorElement.textContent = '';
+                }
+            }
+        });
+
+        button.disabled = !isValid;
+        // if (isValid) {
+        //     button.style.backgroundColor = '#000000';
+        //     button.style.color = 'white';
+        // } else {
+        //     button.style.backgroundColor = 'white';
+        //     button.style.color = 'black';
+        // }
+    }
+
+    inputs.forEach(input => {
+        input.addEventListener('input', validateForm);
+        input.addEventListener('invalid', (event) => {
+            event.preventDefault(); // Отключаем стандартное сообщение браузера
+        });
+    });
+
+    validateForm();
+});
+//
