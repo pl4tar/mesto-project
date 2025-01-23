@@ -15,7 +15,6 @@
   },
   "license": "ISC",
   "author": "Platto Artem",
-  "type": "commonjs",
   "main": "index.js",
   "scripts": {
     "build": "webpack --mode production",

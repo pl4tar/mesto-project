@@ -55,13 +55,13 @@ module.exports = {
                     },
                     'postcss-loader'
                 ],
-            }
+            },
         ],
     },
 
     plugins: [
         new HtmlWebpackPlugin({
-            template: './scripts/index.html'
+            template: './src/index.html'
         }),
         new MiniCssExtractPlugin(),
         new CleanWebpackPlugin(),
