@@ -1,6 +1,7 @@
 import '../pages/index.css'
 
 import {initialCards} from "./cards";
+import { getInitialCards } from "./api";
 
 let placesList = document.querySelector('.places__list');
 const profilePopup = document.querySelector('.popup_type_edit');
@@ -21,38 +22,7 @@ const cardAddButton = document.querySelector('.profile__add-button');
 const closeButtons = document.querySelectorAll('.popup__close');
 const popups = document.querySelectorAll('.popup');
 
-function createCard({name, link}) {
-    const template = document.querySelector('#card-template').content;
-    const cardElement = template.querySelector('.card').cloneNode(true);
 
-    const cardImage = cardElement.querySelector('.card__image');
-    cardImage.src = link;
-    cardImage.alt = name;
-
-    const cardTitle = cardElement.querySelector('.card__title');
-    cardTitle.textContent = name;
-
-    cardImage.addEventListener('click', () => {
-        // Заполняем поп-ап данными о картинке
-        popupImage.src = link;
-        popupCaption.textContent = name;
-
-        // Открываем поп-ап с картинкой
-        openModal(imagePopup);
-    });
-
-    const deleteButton = cardElement.querySelector('.card__delete-button');
-    deleteButton.addEventListener('click', () => {
-        cardElement.remove();
-    });
-
-    const heartButton = cardElement.querySelector('.card__like-button');
-    heartButton.addEventListener('click', () => {
-        heartButton.classList.toggle('card__like-button_is-active');
-    });
-
-    return cardElement;
-}
 
 function renderInitialCards(cards) {
     cards.forEach(cardData => {
@@ -61,7 +31,7 @@ function renderInitialCards(cards) {
     });
 }
 
-renderInitialCards(initialCards);
+renderInitialCards(getInitialCards);
 
 popups.forEach(popup => {
     popup.classList.add('popup_is-animated');
