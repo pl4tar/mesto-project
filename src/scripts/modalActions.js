@@ -12,17 +12,17 @@ function closeModal(popup) {
     }, 300);
 }
 
-const handleEscClosePopup = (evt, popup) => {
-    if (evt.key === 'Escape') {
-        closeModal(popup);
-    }
-};
-
-const handleOverlayClosePopup = (evt, popup) => {
-    if (evt.target === evt.currentTarget) {
-        closeModal(popup);
-    }
-};
+// const handleEscClosePopup = (evt, popup) => {
+//     if (evt.key === 'Escape') {
+//         closeModal(popup);
+//     }
+// };
+//
+// const handleOverlayClosePopup = (evt, popup) => {
+//     if (evt.target === evt.currentTarget) {
+//         closeModal(popup);
+//     }
+// };
 
 const setCloseEventListeners = (closeButtons) => {
     closeButtons.forEach(button => {

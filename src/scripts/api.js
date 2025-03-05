@@ -1,23 +1,85 @@
-const config = {
-    baseUrl: 'https://nomoreparties.co/v1/apf-cohort-202',
-    headers: {
-        authorization: '451c956b-7b94-41f4-8472-a0b95ad49c46',
-        'Content-Type': 'application/json'
+import {configApi} from "./configuration";
+
+
+function serverResponse(res) {
+    if (res.ok) {
+        return res.json();
     }
+    return Promise.reject(`Ошибка: ${res.status}`);
 }
 
-
-
-export const getInitialCards = () => {
-    return fetch(`${config.baseUrl}/cards`, {
-        headers: config.headers
+function getInitialCards() {
+    return fetch(`${configApi.baseUrl}/cards`, {
+        headers: configApi.headers
     })
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            }
+        .then(serverResponse)
+}
 
-            // если ошибка, отклоняем промис
-            return Promise.reject(`Ошибка: ${res.status}`);
-        });
+function getUser() {
+    return fetch(`${configApi.baseUrl}/users/me`, {
+        headers: configApi.headers
+    })
+        .then(serverResponse)
+}
+
+function deleteCard(cardId) {
+    return fetch(`${configApi.baseUrl}cards/${cardId}`, {
+        method: 'DELETE',
+        headers: configApi.headers
+    })
+        .then(serverResponse)
+}
+
+function postCard({name, link}) {
+    return fetch(`${configApi.baseUrl}cards`, {
+        method: 'POST',
+        headers: configApi.headers,
+        body: JSON.stringify({name, link})
+    })
+        .then(serverResponse)
+}
+
+function patchUser({username, description}) {
+    return fetch(`${configApi.baseUrl}users/me`, {
+        method: 'PATCH',
+        headers: configApi.headers,
+        body: JSON.stringify({name: username, about: description})
+    })
+        .then(serverResponse)
+}
+
+function patchUserAvatar({avatar}) {
+    return fetch(`${configApi.baseUrl}users/me/avatar`, {
+        method: 'PATCH',
+        headers: configApi.headers,
+        body: JSON.stringify({avatar})
+    })
+        .then(serverResponse)
+}
+
+function putCardLike(cardId) {
+    return fetch(`${configApi.baseUrl}cards/${cardId}/likes`, {
+        method: 'PUT',
+        headers: configApi.headers
+    })
+        .then(serverResponse)
+}
+
+function deleteCardLike(cardId) {
+    return fetch(`${configApi.baseUrl}cards/${cardId}/likes`, {
+        method: 'DELETE',
+        headers: configApi.headers
+    })
+        .then(serverResponse)
+}
+
+export {
+    getInitialCards,
+    getUser,
+    deleteCard,
+    postCard,
+    patchUser,
+    patchUserAvatar,
+    putCardLike,
+    deleteCardLike,
 }

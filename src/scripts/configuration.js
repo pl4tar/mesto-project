@@ -34,7 +34,7 @@ const validationSettings = {
     errorClass: 'popup__error_visible'
 }
 
-const config = {
+const configApi = {
     baseUrl: 'https://nomoreparties.co/v1/apf-cohort-202',
     headers: {
         authorization: '451c956b-7b94-41f4-8472-a0b95ad49c46',
@@ -42,4 +42,4 @@ const config = {
     }
 }
 
-export {validationSettings, initialCards, config}
+export {validationSettings, initialCards, configApi}

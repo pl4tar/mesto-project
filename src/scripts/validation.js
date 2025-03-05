@@ -1,7 +1,13 @@
-import {validationSettings} from "./configuration";
+import {validationSettings} from "./configuration.js";
+
+const hasInvalidInput = (inputList) => {
+    return inputList.some((inputElement) => {
+        return !inputElement.validity.valid;
+    })
+};
 
 const toggleButtonState = (inputList, buttonElement) => {
-    if (inputList.validity.valueMissing) {
+    if (hasInvalidInput(inputList)) {
         buttonElement.classList.add(validationSettings.inactiveButtonClass);
         buttonElement.setAttribute('disabled', true);
     } else {
