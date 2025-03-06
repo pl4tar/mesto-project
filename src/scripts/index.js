@@ -37,8 +37,8 @@ const profileNameInput = profileForm.querySelector('.popup__input_type_name');
 const profileDescriptionInput = profileForm.querySelector('.popup__input_type_description');
 
 const cardFormElement = cardPopup.querySelector('.popup__form');
-const newCardName = cardFormElement.querySelector('.popup__input_type_card-name');
-const newCardLink = cardFormElement.querySelector('.popup__input_type_url');
+const newCardName = cardPopup.querySelector('.popup__input_type_card-name');
+const newCardLink = cardPopup.querySelector('.popup__input_type_url');
 
 const avatarFormElement = avatarPopup.querySelector('.popup__form');
 const avatarInput = avatarPopup.querySelector('.popup__input_type_url');
@@ -48,6 +48,17 @@ popups.forEach(popup => {
 });
 
 setCloseEventListeners(closeButtons)
+
+function loadUser() {
+    getUser()
+        .then(({name, about, avatar, _id}) => {
+            profileTitle.textContent = name;
+            profileDescription.textContent = about;
+            profileImage.src = avatar;
+            userId = _id;
+        })
+        .catch(err => console.error("Ошибка загрузки данных пользователя:", err));
+}
 
 function renderInitialCards() {
     getInitialCards()
@@ -60,16 +71,7 @@ function renderInitialCards() {
         .catch(err => console.error("Ошибка загрузки карточек:", err));
 }
 
-function loadUser() {
-    getUser()
-        .then(({name, about, avatar, _id}) => {
-            profileTitle.textContent = name;
-            profileDescription.textContent = about;
-            profileImage.src = avatar;
-            userId = _id;
-        })
-        .catch(err => console.error("Ошибка загрузки данных пользователя:", err));
-}
+
 
 function handleProfileFormSubmit(evt) {
     evt.preventDefault();
@@ -146,13 +148,13 @@ profileEditButton.addEventListener('click', () => {
     openModal(profilePopup);
 });
 
-profileNameInput.addEventListener('submit', handleProfileFormSubmit);
+profileForm.addEventListener('submit', handleProfileFormSubmit);
 
 cardAddButton.addEventListener('click', () => {
     openModal(cardPopup);
 });
 
-profileNameInput.addEventListener('submit', handleCardFormSubmit);
+cardFormElement.addEventListener('submit', handleCardFormSubmit);
 
 editAvatarButton.addEventListener('click', () => {
     openModal(avatarPopup);

@@ -41,7 +41,6 @@ function createCard(card, userId) {
 
     if (owner._id !== userId) {
         deleteButton.remove();
-        closeModal(deleteCardPopup);
     } else {
         deleteButton.addEventListener('click', () => {
             openModal(deleteCardPopup);
@@ -55,6 +54,7 @@ function createCard(card, userId) {
                 deleteCard(_id)
                     .then(() => {
                         deleteButton.closest('.card').remove();
+                        closeModal(deleteCardPopup);
                     })
                     .catch(error => console.error('Delete card error: ', error))
                     .finally(() => {

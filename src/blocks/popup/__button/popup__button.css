@@ -25,14 +25,3 @@
     line-height: 17px;
   }
 }
-
-.popup__button:disabled {
-  background-color: white;
-  color: black;
-  cursor: not-allowed;
-  border: 1px solid black;
-  border-radius: 2px;
-}
-.popup__button:not(:disabled):hover {
-  background-color: gray;
-}

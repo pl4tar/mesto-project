@@ -10,12 +10,12 @@
   margin-bottom: 10px;
 }
 
-.popup__input:invalid {
-  border-color: red;
-}
-
 .popup__input:last-of-type {
   margin-bottom: 0;
+}
+
+.popup__input:focus {
+  outline: none; /* Убирает стандартное обведение */
 }
 
 @media screen and (max-width: 568px) {
