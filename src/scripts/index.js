@@ -79,7 +79,7 @@ function handleProfileFormSubmit(evt) {
     const description = profileDescriptionInput.value;
     const submitButton = evt.target.querySelector('button');
 
-    submitButton.textContent = "Сохранение...";
+    submitButton.textContent = "Сохранение";
     submitButton.disabled = true;
 
     patchUser({username, description})
@@ -101,7 +101,7 @@ function handleCardFormSubmit(evt) {
     const link = newCardLink.value;
     const submitButton = evt.target.querySelector('button');
 
-    submitButton.textContent = "Сохранение...";
+    submitButton.textContent = "Сохранение";
     submitButton.disabled = true;
 
     postCard({name, link})

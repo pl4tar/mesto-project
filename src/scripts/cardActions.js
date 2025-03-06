@@ -48,7 +48,7 @@ function createCard(card, userId) {
                 evt.preventDefault();
 
                 const originalText = confirmButton.textContent;
-                confirmButton.textContent = 'Deleting...';
+                confirmButton.textContent = 'Удаление';
                 confirmButton.disabled = true;
 
                 deleteCard(_id)
