@@ -64,7 +64,7 @@ function renderInitialCards() {
     getInitialCards()
         .then(cards => {
             cards.forEach(card => {
-                const cardElement = createCard(card);
+                const cardElement = createCard(card, userId);
                 placesList.append(cardElement);
             });
         })
