@@ -22,9 +22,9 @@ function createCard(card, userId) {
     const likeCounter = cardElement.querySelector('.card__likes-count');
     const deleteButton = cardElement.querySelector('.card__delete-button');
 
+    cardTitle.textContent = name;
     cardImage.src = link;
     cardImage.alt = name;
-    cardTitle.textContent = name;
 
     updateCardLikes(likeButton, likeCounter, likes, userId);
 
@@ -83,12 +83,12 @@ function createCard(card, userId) {
     return cardElement;
 }
 
-function updateCardLikes(likeBTN, likeCount, likes, userId) {
-    likeCount.textContent = likes.length > 0 ? likes.length : '';
+function updateCardLikes(likeButton, likeCounter, likes, userId) {
+    likeCounter.textContent = likes.length > 0 ? likes.length : '';
     if (likes.some(user => user._id === userId)) {
-        likeBTN.classList.add('card__like-button_is-active');
+        likeButton.classList.add('card__like-button_is-active');
     } else {
-        likeBTN.classList.remove('card__like-button_is-active');
+        likeButton.classList.remove('card__like-button_is-active');
     }
 }
 

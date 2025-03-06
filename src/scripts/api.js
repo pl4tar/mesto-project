@@ -1,4 +1,4 @@
-import {configApi} from "./configuration";
+import {configApi} from "./configuration.js";
 
 
 function serverResponse(res) {
@@ -23,15 +23,16 @@ function getUser() {
 }
 
 function deleteCard(cardId) {
-    return fetch(`${configApi.baseUrl}cards/${cardId}`, {
+    return fetch(`${configApi.baseUrl}/cards/${cardId}`, {
         method: 'DELETE',
         headers: configApi.headers
     })
         .then(serverResponse)
+
 }
 
 function postCard({name, link}) {
-    return fetch(`${configApi.baseUrl}cards`, {
+    return fetch(`${configApi.baseUrl}/cards`, {
         method: 'POST',
         headers: configApi.headers,
         body: JSON.stringify({name, link})
@@ -40,7 +41,7 @@ function postCard({name, link}) {
 }
 
 function patchUser({username, description}) {
-    return fetch(`${configApi.baseUrl}users/me`, {
+    return fetch(`${configApi.baseUrl}/users/me`, {
         method: 'PATCH',
         headers: configApi.headers,
         body: JSON.stringify({name: username, about: description})
@@ -49,7 +50,7 @@ function patchUser({username, description}) {
 }
 
 function patchUserAvatar({avatar}) {
-    return fetch(`${configApi.baseUrl}users/me/avatar`, {
+    return fetch(`${configApi.baseUrl}/users/me/avatar`, {
         method: 'PATCH',
         headers: configApi.headers,
         body: JSON.stringify({avatar})
@@ -58,7 +59,7 @@ function patchUserAvatar({avatar}) {
 }
 
 function putCardLike(cardId) {
-    return fetch(`${configApi.baseUrl}cards/${cardId}/likes`, {
+    return fetch(`${configApi.baseUrl}/cards/${cardId}/likes`, {
         method: 'PUT',
         headers: configApi.headers
     })
@@ -66,7 +67,7 @@ function putCardLike(cardId) {
 }
 
 function deleteCardLike(cardId) {
-    return fetch(`${configApi.baseUrl}cards/${cardId}/likes`, {
+    return fetch(`${configApi.baseUrl}/cards/${cardId}/likes`, {
         method: 'DELETE',
         headers: configApi.headers
     })
