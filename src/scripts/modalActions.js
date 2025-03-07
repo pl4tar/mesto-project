@@ -1,5 +1,7 @@
 function openModal(popup) {
     popup.classList.add('popup_is-opened');
+    document.addEventListener('keydown', handleEscapeClose);
+    popup.addEventListener('click', (evt) => handleOverlayClose(evt, popup));
     setTimeout(() => {
         popup.classList.add('popup_is-visible');
     }, 10);
@@ -7,22 +9,27 @@ function openModal(popup) {
 
 function closeModal(popup) {
     popup.classList.remove('popup_is-visible');
+    document.removeEventListener('keydown', handleEscapeClose);
+    popup.removeEventListener('click', handleOverlayClose);
     setTimeout(() => {
         popup.classList.remove('popup_is-opened');
     }, 300);
 }
 
-// const handleEscClosePopup = (evt, popup) => {
-//     if (evt.key === 'Escape') {
-//         closeModal(popup);
-//     }
-// };
-//
-// const handleOverlayClosePopup = (evt, popup) => {
-//     if (evt.target === evt.currentTarget) {
-//         closeModal(popup);
-//     }
-// };
+const handleEscapeClose = (evt) => {
+    if (evt.key === 'Escape') {
+        const openedPopup = document.querySelector('.popup_is-opened');
+        if (openedPopup) {
+            closeModal(openedPopup);
+        }
+    }
+};
+
+const handleOverlayClose = (evt, popup) => {
+    if (evt.target === popup) {
+        closeModal(popup);
+    }
+};
 
 const setCloseEventListeners = (closeButtons) => {
     closeButtons.forEach(button => {
@@ -35,4 +42,4 @@ const setCloseEventListeners = (closeButtons) => {
     });
 };
 
-export {openModal, closeModal, setCloseEventListeners};
+export {openModal, closeModal, setCloseEventListeners, handleEscapeClose, handleOverlayClose};

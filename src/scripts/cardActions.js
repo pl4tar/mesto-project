@@ -4,7 +4,7 @@ import {
     deleteCardLike
 } from "./api.js";
 
-import {openModal, closeModal} from "./modalActions.js";
+import {openModal, closeModal, handleEscapeClose, handleOverlayClose} from "./modalActions.js";
 
 function createCard(card, userId) {
     const {name, link, likes, _id, owner} = card;
@@ -51,6 +51,19 @@ function createCard(card, userId) {
                 confirmButton.textContent = 'Удаление';
                 confirmButton.disabled = true;
 
+                let dotsInterval;
+                let currentStep = 0;
+
+                const updateButtonText = () => {
+                    const dots = '.'.repeat(3 - (currentStep % 3));
+                    confirmButton.textContent = `Удаление${dots}`;
+                    currentStep++;
+                };
+
+                updateButtonText();
+
+                dotsInterval = setInterval(updateButtonText, 200);
+
                 deleteCard(_id)
                     .then(() => {
                         deleteButton.closest('.card').remove();
@@ -60,7 +73,7 @@ function createCard(card, userId) {
                     .finally(() => {
                         confirmButton.textContent = originalText;
                         confirmButton.disabled = false;
-                })
+                    })
             }
 
             confirmButton.removeEventListener('click', confirmButton._handler);
@@ -72,13 +85,17 @@ function createCard(card, userId) {
     cardImage.addEventListener('click', () => {
         const imageContent = document.querySelector('.popup__image');
         const captionContent = document.querySelector('.popup__caption');
-
+        const imagePopup = document.querySelector('.popup_type_image');
         imageContent.src = link;
         imageContent.alt = name;
         captionContent.textContent = name;
 
-        openModal(document.querySelector('.popup_type_image'));
+        openModal(imagePopup);
+
+        // document.addEventListener('keydown', handleEscapeClose);
+        // imagePopup.addEventListener('click', (evt) => handleOverlayClose(evt, imagePopup));
     })
+
 
     return cardElement;
 }

@@ -104,6 +104,19 @@ function handleCardFormSubmit(evt) {
     submitButton.textContent = "Сохранение";
     submitButton.disabled = true;
 
+    let dotsInterval;
+    let currentStep = 0;
+
+    const updateButtonText = () => {
+        const dots = '.'.repeat(3 - (currentStep % 3));
+        submitButton.textContent = `Сохранение${dots}`;
+        currentStep++;
+    };
+
+    updateButtonText();
+
+    dotsInterval = setInterval(updateButtonText, 200);
+
     postCard({name, link})
         .then(card => {
             const cardElement = createCard(card, userId);
@@ -153,6 +166,8 @@ profileForm.addEventListener('submit', handleProfileFormSubmit);
 cardAddButton.addEventListener('click', () => {
     openModal(cardPopup);
 });
+
+
 
 cardFormElement.addEventListener('submit', handleCardFormSubmit);
 
