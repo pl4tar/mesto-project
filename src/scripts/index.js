@@ -43,6 +43,7 @@ const newCardLink = cardPopup.querySelector('.popup__input_type_url');
 const avatarFormElement = avatarPopup.querySelector('.popup__form');
 const avatarInput = avatarPopup.querySelector('.popup__input_type_url');
 
+
 popups.forEach(popup => {
     popup.classList.add('popup_is-animated');
 });
@@ -71,16 +72,34 @@ function renderInitialCards() {
         .catch(err => console.error("Ошибка загрузки карточек:", err));
 }
 
-
+// function SetDotsInterval(){
+//
+//
+//     return dotsInterval;
+// }
 
 function handleProfileFormSubmit(evt) {
     evt.preventDefault();
     const username = profileNameInput.value;
     const description = profileDescriptionInput.value;
+
     const submitButton = evt.target.querySelector('button');
 
     submitButton.textContent = "Сохранение";
     submitButton.disabled = true;
+
+    let dotsInterval;
+    let currentStep = 0;
+
+    const updateButtonText = () => {
+        const dots = '.'.repeat(3 - (currentStep % 3));
+        submitButton.textContent = `Сохранение${dots}`;
+        currentStep++;
+    };
+
+    updateButtonText();
+
+    dotsInterval = setInterval(updateButtonText, 200);
 
     patchUser({username, description})
         .then(({name, about}) => {
@@ -90,6 +109,7 @@ function handleProfileFormSubmit(evt) {
         })
         .catch(err => console.error("Ошибка обновления профиля:", err))
         .finally(() => {
+            clearInterval(dotsStop);
             submitButton.textContent = "Сохранить";
             submitButton.disabled = false;
         });
@@ -126,7 +146,7 @@ function handleCardFormSubmit(evt) {
         })
         .catch(err => console.error("Ошибка добавления карточки:", err))
         .finally(() => {
-
+            clearInterval(dotsInterval);
             submitButton.textContent = "Сохранить";
             submitButton.disabled = false;
         });
@@ -138,8 +158,21 @@ function handleAvatarFormSubmit(evt) {
     const submitButton = evt.target.querySelector('button');
 
 
-    submitButton.textContent = "Сохранение...";
+    submitButton.textContent = "Сохранение";
     submitButton.disabled = true;
+
+    let dotsInterval;
+    let currentStep = 0;
+
+    const updateButtonText = () => {
+        const dots = '.'.repeat(3 - (currentStep % 3));
+        submitButton.textContent = `Сохранение${dots}`;
+        currentStep++;
+    };
+
+    updateButtonText();
+
+    dotsInterval = setInterval(updateButtonText, 200);
 
     patchUserAvatar({avatar})
         .then(({avatar}) => {
@@ -149,7 +182,7 @@ function handleAvatarFormSubmit(evt) {
         })
         .catch(err => console.error("Ошибка изменения аватара:", err))
         .finally(() => {
-
+            clearInterval(dotsInterval);
             submitButton.textContent = "Сохранить";
             submitButton.disabled = false;
         });

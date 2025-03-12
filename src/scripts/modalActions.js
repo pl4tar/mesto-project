@@ -14,6 +14,7 @@ function closeModal(popup) {
     setTimeout(() => {
         popup.classList.remove('popup_is-opened');
     }, 300);
+    // resetModalState(popup)
 }
 
 const handleEscapeClose = (evt) => {

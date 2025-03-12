@@ -71,6 +71,7 @@ function createCard(card, userId) {
                     })
                     .catch(error => console.error('Delete card error: ', error))
                     .finally(() => {
+                        clearInterval(dotsInterval);
                         confirmButton.textContent = originalText;
                         confirmButton.disabled = false;
                     })
