@@ -8,7 +8,7 @@ import {
 
 import {openModal, closeModal, setCloseEventListeners} from "./modalActions.js";
 import {createCard} from "./cardActions.js";
-import {enableValidation} from "./validation.js";
+import {enableValidation, resetForm, resetInputFrom} from "./validation.js";
 import {validationSettings} from "./configuration.js";
 
 import '../pages/index.css';
@@ -43,6 +43,7 @@ const newCardLink = cardPopup.querySelector('.popup__input_type_url');
 const avatarFormElement = avatarPopup.querySelector('.popup__form');
 const avatarInput = avatarPopup.querySelector('.popup__input_type_url');
 
+
 popups.forEach(popup => {
     popup.classList.add('popup_is-animated');
 });
@@ -71,25 +72,39 @@ function renderInitialCards() {
         .catch(err => console.error("Ошибка загрузки карточек:", err));
 }
 
-
-
 function handleProfileFormSubmit(evt) {
     evt.preventDefault();
     const username = profileNameInput.value;
     const description = profileDescriptionInput.value;
+
     const submitButton = evt.target.querySelector('button');
 
     submitButton.textContent = "Сохранение";
     submitButton.disabled = true;
+
+    let dotsInterval;
+    let currentStep = 0;
+
+    const updateButtonText = () => {
+        const dots = '.'.repeat(3 - (currentStep % 3));
+        submitButton.textContent = `Сохранение${dots}`;
+        currentStep++;
+    };
+
+    updateButtonText();
+
+    dotsInterval = setInterval(updateButtonText, 200);
 
     patchUser({username, description})
         .then(({name, about}) => {
             profileTitle.textContent = name;
             profileDescription.textContent = about;
             closeModal(profilePopup);
+            // resetForm(profileForm)
         })
         .catch(err => console.error("Ошибка обновления профиля:", err))
         .finally(() => {
+            clearInterval(dotsInterval);
             submitButton.textContent = "Сохранить";
             submitButton.disabled = false;
         });
@@ -122,11 +137,11 @@ function handleCardFormSubmit(evt) {
             const cardElement = createCard(card, userId);
             placesList.prepend(cardElement);
             closeModal(cardPopup);
-            cardFormElement.reset();
+            resetForm(cardFormElement)
         })
         .catch(err => console.error("Ошибка добавления карточки:", err))
         .finally(() => {
-
+            clearInterval(dotsInterval);
             submitButton.textContent = "Сохранить";
             submitButton.disabled = false;
         });
@@ -138,26 +153,44 @@ function handleAvatarFormSubmit(evt) {
     const submitButton = evt.target.querySelector('button');
 
 
-    submitButton.textContent = "Сохранение...";
+    submitButton.textContent = "Сохранение";
     submitButton.disabled = true;
+
+    let dotsInterval;
+    let currentStep = 0;
+
+    const updateButtonText = () => {
+        const dots = '.'.repeat(3 - (currentStep % 3));
+        submitButton.textContent = `Сохранение${dots}`;
+        currentStep++;
+    };
+
+    updateButtonText();
+
+    dotsInterval = setInterval(updateButtonText, 200);
 
     patchUserAvatar({avatar})
         .then(({avatar}) => {
             profileImage.src = avatar;
             closeModal(avatarPopup);
-            avatarFormElement.reset();
+            resetForm(avatarFormElement)
+
+            // avatarFormElement.reset();
+            // avatarInput.value = '';
         })
         .catch(err => console.error("Ошибка изменения аватара:", err))
         .finally(() => {
-
+            clearInterval(dotsInterval);
             submitButton.textContent = "Сохранить";
             submitButton.disabled = false;
+            resetForm(avatarFormElement)
         });
 }
 
 profileEditButton.addEventListener('click', () => {
     profileNameInput.value = profileTitle.textContent;
     profileDescriptionInput.value = profileDescription.textContent;
+    resetInputFrom(profileForm)
     openModal(profilePopup);
 });
 
@@ -166,7 +199,6 @@ profileForm.addEventListener('submit', handleProfileFormSubmit);
 cardAddButton.addEventListener('click', () => {
     openModal(cardPopup);
 });
-
 
 
 cardFormElement.addEventListener('submit', handleCardFormSubmit);
@@ -182,118 +214,4 @@ enableValidation(validationSettings);
 loadUser();
 renderInitialCards()
 
-
-// popups.forEach(popup => {
-//     popup.classList.add('popup_is-animated');
-// });
-//
-//
-// profileEditButton.addEventListener('click', () => openModal(profilePopup));
-// cardAddButton.addEventListener('click', () => openModal(cardPopup));
-//
-// closeButtons.forEach(button => {
-//     button.addEventListener('click', (event) => {
-//         const popup = event.target.closest('.popup');
-//         closeModal(popup);
-//     });
-// });
-//
-// popups.forEach(popup => {
-//     popup.addEventListener('click', (event) => {
-//         if (event.target === popup) {
-//             closeModal(popup);
-//         }
-//     });
-// });
-//
-// document.addEventListener('keydown', (event) => {
-//     if (event.key === 'Escape') {
-//         const openedPopup = document.querySelector('.popup_is-opened');
-//         if (openedPopup) {
-//             closeModal(openedPopup);
-//         }
-//     }
-// });
-//
-// cardForm.addEventListener('submit', (event) => {
-//     event.preventDefault();
-//     if (nameInput.value !== '' && linkInput.value !== '') {
-//         const newCard = {
-//             name: nameInput.value,
-//             link: linkInput.value,
-//         };
-//         const newCardElement = createCard(newCard);
-//         placesList.prepend(newCardElement);
-//     }
-//
-//     closeModal(cardPopup);
-//
-//     cardForm.reset();
-// });
-//
-// profileEditButton.addEventListener('click', () => {
-//     openModal(profilePopup);
-//
-//     profileNameInput.value = profileTitle.textContent;
-//     profileDescriptionInput.value = profileDescription.textContent;
-// });
-//
-// profileForm.addEventListener('submit', (event) => {
-//     event.preventDefault();
-//
-//     profileTitle.textContent = profileNameInput.value;
-//     profileDescription.textContent = profileDescriptionInput.value;
-//     closeModal(profilePopup);
-// })
-//
-// const forms = document.querySelectorAll('.popup__form');
-//
-// forms.forEach(form => {
-//     const inputs = form.querySelectorAll('.popup__input');
-//     const button = form.querySelector('.popup__button');
-//
-//     function validateForm() {
-//         let isValid = true;
-//
-//         inputs.forEach(input => {
-//             const errorElement = document.getElementById(`${input.name}-error`);
-//             const emptyErrorElement = document.getElementById(`${input.name}-empty-error`);
-//
-//             if (input.validity.valueMissing) {
-//                 emptyErrorElement.textContent = 'Вы пропустили это поле';
-//                 errorElement.textContent = '';
-//                 isValid = false;
-//             } else {
-//                 emptyErrorElement.textContent = '';
-//                 if (!input.validity.valid) {
-//                     errorElement.textContent = input.validationMessage;
-//                     isValid = false;
-//                 } else {
-//                     errorElement.textContent = '';
-//                 }
-//             }
-//         });
-//
-//         button.disabled = !isValid;
-//         // if (isValid) {
-//         //     button.style.backgroundColor = '#000000';
-//         //     button.style.color = 'white';
-//         // } else {
-//         //     button.style.backgroundColor = 'white';
-//         //     button.style.color = 'black';
-//         // }
-//     }
-//
-//     inputs.forEach(input => {
-//         input.addEventListener('input', validateForm);
-//         input.addEventListener('invalid', (event) => {
-//             event.preventDefault(); // Отключаем стандартное сообщение браузера
-//         });
-//     });
-//
-//     validateForm();
-// });
-//
-//
-// renderInitialCards();
 

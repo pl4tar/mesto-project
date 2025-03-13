@@ -4,7 +4,7 @@ import {
     deleteCardLike
 } from "./api.js";
 
-import {openModal, closeModal, handleEscapeClose, handleOverlayClose} from "./modalActions.js";
+import {openModal, closeModal} from "./modalActions.js";
 
 function createCard(card, userId) {
     const {name, link, likes, _id, owner} = card;
@@ -71,6 +71,7 @@ function createCard(card, userId) {
                     })
                     .catch(error => console.error('Delete card error: ', error))
                     .finally(() => {
+                        clearInterval(dotsInterval);
                         confirmButton.textContent = originalText;
                         confirmButton.disabled = false;
                     })
@@ -91,9 +92,6 @@ function createCard(card, userId) {
         captionContent.textContent = name;
 
         openModal(imagePopup);
-
-        // document.addEventListener('keydown', handleEscapeClose);
-        // imagePopup.addEventListener('click', (evt) => handleOverlayClose(evt, imagePopup));
     })
 
 

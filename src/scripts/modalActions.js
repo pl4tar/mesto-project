@@ -8,6 +8,7 @@ function openModal(popup) {
 }
 
 function closeModal(popup) {
+    // resetForm(popup);
     popup.classList.remove('popup_is-visible');
     document.removeEventListener('keydown', handleEscapeClose);
     popup.removeEventListener('click', handleOverlayClose);
@@ -42,4 +43,10 @@ const setCloseEventListeners = (closeButtons) => {
     });
 };
 
-export {openModal, closeModal, setCloseEventListeners, handleEscapeClose, handleOverlayClose};
+export {
+    openModal,
+    closeModal,
+    setCloseEventListeners,
+    handleEscapeClose,
+    handleOverlayClose
+};
